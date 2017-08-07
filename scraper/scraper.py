@@ -2,7 +2,7 @@ from lxml import html
 import requests
 import re
 import json
-import urllib
+import urllib.request
 import sys
 
 path = sys.argv[1]
@@ -44,10 +44,10 @@ def extract(url):
     final_data[img_no]['type'] = typ
     final_data[img_no]['items'] = items
     final_data[img_no]['img'] = domain + img
-    urllib.urlretrieve(domain+img, path+str(img_no)+".png")
+    urllib.request.urlretrieve(domain+img, path+str(img_no)+".png")
     with open('data_new.json', 'w') as f:
         json.dump(final_data, f)
-    print final_data[img_no]
+    print (final_data[img_no])
 
 
 def main():
@@ -62,7 +62,7 @@ def main():
 
         next_page_url = tree.xpath('//footer/a/@href')
 
-        print 'extract'
+        print ('extract')
         links = [domain + x['nodeRef'] for x in json_data]
         for link in links:
             extract(link)

@@ -6,7 +6,7 @@ import pickle
 import time
 import sys
 
-print sys.argv
+print (sys.argv)
 training_folder = sys.argv[1]
 train_labels = sys.argv[3]
 mode_folder = sys.argv[4]
@@ -18,7 +18,7 @@ training_folder_len = len([name for name in os.listdir(os.getcwd()+"/"+training_
 filename = train_labels
 fileObject = open(filename,'r')
 train_labels = pickle.load(fileObject)
-print "train_labels",len(train_labels)
+print ("train_labels",len(train_labels))
 
 
 n_input = 25088
@@ -167,13 +167,13 @@ with g2.as_default():
 
 
 r = (training_folder_len - (training_folder_len%batch))+1
-print r
+print (r)
 
 with tf.Session(graph=g2) as sess2:
 # sess =  tf.Session(graph=g2)
 
     sess2.run(tf.global_variables_initializer())
-    print "shit"
+    print ("shit")
     # saver.save(sess2, 'my-model')
 
     accuracy_list=[]
@@ -193,35 +193,35 @@ with tf.Session(graph=g2) as sess2:
             # print type(content_features)
             content_features = content_features.reshape((content_features.shape[0],7*7*512))
             # content_features = content_features.reshape((content_features.shape[0],28*28*256))
-            print content_features.shape , "Feature Map Shape"
+            print (content_features.shape , "Feature Map Shape")
 
-            print "j=",j
+            print ("j=",j)
 
             if j==r-1:
                 label = train_labels[j:]
-                print label.shape
+                print (label.shape)
             else:
                 label = train_labels[j+0:j+20]
-                print label.shape
+                print (label.shape)
 
             _,l,w1,cst = sess2.run([optimizer,train_label,W_1,Cost], feed_dict={x: content_features, y:label})
 
-            print l
+            print (l)
             # print str(epoch) + "-------------------------------------"
 
 
             if j % 100==0:
-                print " Epoch="+str(epoch),"j="+str(j)
+                print (" Epoch="+str(epoch),"j="+str(j))
             #     accuracy_list.append(acc)
                 cost.append(cst)
 
-                print "COST",cost
+                print ("COST",cost)
 
         print("--- %s seconds ---" % (time.time() - start_time))
         j=0
         path_name = os.getcwd()+"/"+sys.argv[4]+"/"+"my-model-"+str(epoch)+".ckpt"
         save_path = saver.save(sess2, path_name)
-        print path_name,"saved"
+        print (path_name,"saved")
         #
 
 # python train_model.py <Training images folder> <Train images codes folder> <Training image labels file> <Folder to save models>

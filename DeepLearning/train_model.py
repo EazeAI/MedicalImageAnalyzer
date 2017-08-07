@@ -7,7 +7,8 @@ import time
 from sklearn.metrics import precision_recall_fscore_support
 import sys
 
-print sys.argv
+
+print (sys.argv)
 testing_folder = sys.argv[1]
 test_labels = sys.argv[3]
 
@@ -17,9 +18,9 @@ epoch = 20
 testing_folder_len = len([name for name in os.listdir(os.getcwd()+"/"+testing_folder)])
 
 filename = test_labels
-fileObject = open(filename,'r')
+fileObject = open(filename,'rb')
 test_labels = pickle.load(fileObject)
-print "test_labels",len(test_labels)
+print ("test_labels",len(test_labels))
 
 # n_input = 200704
 n_input = 25088
@@ -165,7 +166,7 @@ class_pred = np.array([])
 class_actual=np.array([])
 
 r = (testing_folder_len - (testing_folder_len%25))+1
-print r
+print (r)
 
 
 with tf.Session(graph=g2) as sess1:
@@ -180,42 +181,40 @@ with tf.Session(graph=g2) as sess1:
         fileObject = open(file_Name,'r')
         # load the object from the file into var b
         content_features = pickle.load(fileObject)
-        print content_features.shape
-
+        print (content_features.shape)
         if j==r-1:
             test_label = test_labels[j:]
-            print "test_label",test_label.shape
+            print ("test_label",test_label.shape)
         else:
             test_label = test_labels[j:25+j]
-            print "test_label",test_label.shape
+            print ("test_label",test_label.shape)
 
         acc,pred,s,actual = sess1.run([accuracy,predicted_y,soft,actual_y], feed_dict={x: content_features,y: test_label})
-        print acc
-        print s
-        print "predicted",pred
-        print "actual",actual
-
+        print (acc)
+        print (s)
+        print ("predicted",pred)
+        print ("actual",actual)
         # print type(pred)
         # class_pred+=list(pred)
         class_pred = np.concatenate((class_pred, pred), axis=0)
         class_actual = np.concatenate((class_actual, actual), axis=0)
         # class_actual+=list(actual)
-        print np.unique(class_actual,return_counts=True)
+        print (np.unique(class_actual,return_counts=True))
 
-print class_pred
-print class_actual
+print (class_pred)
+print (class_actual)
 
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
 conf_matrix = confusion_matrix(class_actual,class_pred)
 
-print conf_matrix
+print (conf_matrix)
 prfs = precision_recall_fscore_support(class_actual, class_pred)
-print "precision : ",prfs[0] 
-print "recall : ",prfs[1] 
-print "fscore : ",prfs[2] 
-print "support : ",prfs[3] 
+print ("precision : ",prfs[0] )
+print ("recall : ",prfs[1] )
+print ("fscore : ",prfs[2] )
+print ("support : ",prfs[3] )
 plt.matshow(conf_matrix)
 plt.colorbar()
 plt.ylabel('True label')

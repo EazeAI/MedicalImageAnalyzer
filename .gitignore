@@ -4,3 +4,5 @@
 *.png
 *.txt
 .ipynb_checkpoints/
+DeepLearning/trainCode/
+DeepLearning/testCode/

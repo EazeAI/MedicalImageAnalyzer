@@ -7,7 +7,7 @@ import pickle
 import time
 import sys
 
-print sys.argv
+print (sys.argv)
 training_folder = sys.argv[1]
 testing_folder = sys.argv[2]
 batch = 20
@@ -86,7 +86,7 @@ def get_content_feature(img_4d):
                     })
 
             # train_new.append(content_features)
-            print content_features.shape
+            print (content_features.shape)
             return content_features
 
 
@@ -97,7 +97,7 @@ os.mkdir(os.getcwd()+"/"+sys.argv[3])
 os.mkdir(os.getcwd()+"/"+sys.argv[4])
 
 r = (training_folder_len - (training_folder_len%batch))+1
-print r
+print (r)
 
 for j in range(0,r,20):
 # for j in range(1):
@@ -106,7 +106,7 @@ for j in range(0,r,20):
     start_time = time.time()
     if j==r-1:
         m = j+batch-training_folder_len
-        print m
+        print (m)
 
     for i in range(j+0,j+20-m):
     # for i in range(980,994):
@@ -114,7 +114,7 @@ for j in range(0,r,20):
         og = plt.imread(sys.argv[1]+"/"+str(i)+".png")
         og = preprocess(og)
         img.append(og)
-    print "j=",j
+    print ("j=",j)
 
     x1 = g1.get_tensor_by_name('vgg/images' + ':0')
 
@@ -122,12 +122,12 @@ for j in range(0,r,20):
     # img_4d = img_4d.reshape((1,224,244,3))
     # img_4d = img[np.newaxis]
 
-    print img_4d.shape , "Image Shape"
+    print (img_4d.shape , "Image Shape")
 #
 
     # content_features = content_features.reshape((content_features.shape[0],7*7*512))
     content_features = get_content_feature(img_4d).reshape((get_content_feature(img_4d).shape[0],7*7*512))
-    print content_features.shape , "Feature Map Shape"
+    print (content_features.shape , "Feature Map Shape")
 
 
     # file_Name = "/home/ayush/Documents/xray/DeepLearning/features-nodule-only/"+str(j)
@@ -147,7 +147,7 @@ for j in range(0,r,20):
 
 # prepare test set
 r = (testing_folder_len - (testing_folder_len%25))+1
-print r
+print (r)
 m=0
 
 for j in range(0,r,25):
@@ -157,7 +157,7 @@ for j in range(0,r,25):
 
     if j==r-1:
         m = j+25-testing_folder_len
-        print m
+        print (m)
 
     for i in range(j+0,j+25-m):
     # for i in range(980,994):
@@ -165,7 +165,7 @@ for j in range(0,r,25):
         og = plt.imread(sys.argv[2]+"/"+str(i)+".png")
         og = preprocess(og)
         test_img.append(og)
-    print "j=",j
+    print ("j=",j)
 
 
 
@@ -174,7 +174,7 @@ for j in range(0,r,25):
     # img_4d = img[np.newaxis]
 
     test_img = get_content_feature(img_4d).reshape((get_content_feature(img_4d).shape[0],7*7*512))
-    print "test",test_img.shape
+    print ("test",test_img.shape)
 
     # print "new test",test_img.shape
 
