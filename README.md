@@ -43,25 +43,31 @@ The above code can be used for **Deep Transfer Learning** on any Image dataset t
 1. Download Data- the script download images and saves corresponding disease label in json format.
 
   ```python scraper.py <path/to/folder/to/save/images>```
+  For eg python scraper.py "D://Xvision/data" ,this will save the images dataset into data folder of Xvision project.You can run python scraper.py parallely also to generate images set faster by giving the range from 0 to 75 or (0-30,30-50,50-75)or based on your preference to generate images fast.
 
-2. Follow the ```scraper/process.ipynb``` notebook for Data processing and generate
+2. Follow the ```scraper/process.ipynb``` notebook for Data processing and generate.You can refer run.py in scraper folder or follow the ```scraper/process.ipynb``` and run each step individually and generate the below dataset.All the steps of ```scraper/process.ipynb``` are done in run.py.You just need to change the folder destination based on your path.
+After running run.py you should be able to generated below folders.
 
-  * Training images folder - All images for training
-  * Testing images Folder - All images for testing
-  * Training image labels file - Pickled file with training labels
-  * Testing image labels file - Pickled file with testing labels
+  * Training images folder - All images for training(Eg - final_train_images_calc_nodule_only(folder name))
+  * Testing images Folder - All images for testing(Eg - final_test_images_calc_nodule_only(folder name))
+  * Training image labels file - Pickled file with training labels(Eg - training_labels_calc_nodule_only(file name))
+  * Testing image labels file - Pickled file with testing labels(Eg - testing_labels_calc_nodule_only(file name))
 
 3. Extract features(**CNN Codes**) from the **maxpool:5** layer of PreTrained CovNet(VggNet) and save them beforehand for faster training of Neural network.
 
     ```python train.py <Training images folder> <Testing image folder> <Train images codes folder > <Test images codes folder>```
 
+    For eg python train.py final_train_images_calc_nodule_only final_test_images_calc_nodule_only train-code test-code
+
 4.  The extracted features are now used for training our **2-Layer Neural Network** from scratch.The computed models are saved as tensorflow checkpoint after every **Epoch**.
 
     ```python train_model.py <Training images folder> <Train images codes folder> <Training image labels file> <Folder to         save models>```
 
+    For eg python train_model.py final_train_images_calc_nodule_only train-code training_labels_calc_nodule_only train-model
+
 5.  Finally the saved models are used for making predictions.Confusion Matrix is used as the Performance Metrics for this classifcation task.
 
-    ```python test_model.py <Testing images folder> <Test images codes folder> <Testing image labels file> <Folder with saved models>```
+    ```python test_model.py final_test_images_calc_nodule_only test-code testing_labels_calc_nodule_only train-model```
     
     
     

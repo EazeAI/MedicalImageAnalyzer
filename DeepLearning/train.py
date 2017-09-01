@@ -93,8 +93,8 @@ def get_content_feature(img_4d):
 m=0
 # prepare trainig feature set
 # os.mkdir(os.getcwd()+"/"+sys.argv[3])
-os.mkdir(os.getcwd()+"/"+sys.argv[3])
-os.mkdir(os.getcwd()+"/"+sys.argv[4])
+# os.mkdir(os.getcwd()+"/"+sys.argv[3])
+# os.mkdir(os.getcwd()+"/"+sys.argv[4])
 
 r = (training_folder_len - (training_folder_len%batch))+1
 print (r)

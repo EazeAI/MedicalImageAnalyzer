@@ -2,7 +2,7 @@ from lxml import html
 import requests
 import re
 import json
-import urllib.request
+import urllib
 import sys
 
 path = sys.argv[1]
@@ -14,10 +14,11 @@ domain = 'https://openi.nlm.nih.gov/'
 url_list = []
 for i in range(0,75):
     url = 'https://openi.nlm.nih.gov/gridquery.php?q=&it=x,xg&sub=x&m='+str(1+100*i)+'&n='+str(100+100*i)
+    print(url)
     url_list.append(url)
 regex = re.compile(r"var oi = (.*);")
 final_data = {}
-img_no = 0
+img_no = 1100
 
 
 def extract(url):
@@ -44,10 +45,10 @@ def extract(url):
     final_data[img_no]['type'] = typ
     final_data[img_no]['items'] = items
     final_data[img_no]['img'] = domain + img
-    urllib.request.urlretrieve(domain+img, path+str(img_no)+".png")
+    urllib.urlretrieve(domain+img, path+str(img_no)+".png")
     with open('data_new.json', 'w') as f:
         json.dump(final_data, f)
-    print (final_data[img_no])
+    print final_data[img_no]
 
 
 def main():
@@ -62,7 +63,7 @@ def main():
 
         next_page_url = tree.xpath('//footer/a/@href')
 
-        print ('extract')
+        print 'extract'
         links = [domain + x['nodeRef'] for x in json_data]
         for link in links:
             extract(link)
