@@ -5,8 +5,8 @@ Chest Xray image analysis using **Deep Learning** and  exploiting **Deep Transfe
 The **maxpool-5** layer of a pretrained **VGGNet-16(Deep Convolutional Neural Network)** model has been used as the feature extractor here and then further trained on a **2-layer Deep neural network** with **SGD optimizer** and **Batch Normalization** for classification of **Normal vs Nodular** Chest Xray Images.
 
 ## Nodular vs Normal Chest Xray
-<img src="https://github.com/ayush1997/Xvision/blob/master/image/node.jpg" width="300" height="300" />
-<img src="https://github.com/ayush1997/Xvision/blob/master/image/normal.jpg" width="300" height="300" />
+<img src="https://github.csc.com/ATD/mriXvision/tree/master/image/node.jpg" width="300" height="300" />
+<img src="https://github.csc.com/ATD/mriXvision/blob/master/image/normal.jpg" width="300" height="300" />
 
 ## Some specifications
 
@@ -23,8 +23,8 @@ The **maxpool-5** layer of a pretrained **VGGNet-16(Deep Convolutional Neural Ne
 ## Evaluation
 ### Confusion Matrix and Training Error Graph
 
-<img src="https://github.com/ayush1997/Xvision/blob/master/image/cfm.jpg" width="450" height="400" />
-<img src="https://github.com/ayush1997/Xvision/blob/master/image/nodule.jpg" width="400" height="400" />
+<img src="https://github.csc.com/ATD/mriXvision/tree/master/image/cfm.jpg" width="450" height="400" />
+<img src="https://github.csc.com/ATD/mriXvision/tree/master/image/nodule.jpg" width="400" height="400" />
 
 |     |  **Normal** | **Nodule** |
 |------|---------|---------|
@@ -53,19 +53,27 @@ After running run.py you should be able to generated below folders.
   * Training image labels file - Pickled file with training labels(Eg - training_labels_calc_nodule_only(file name))
   * Testing image labels file - Pickled file with testing labels(Eg - testing_labels_calc_nodule_only(file name))
 
-3. Extract features(**CNN Codes**) from the **maxpool:5** layer of PreTrained CovNet(VggNet) and save them beforehand for faster training of Neural network.
+3. Extract features(**CNN Codes**) from the **maxpool:5** layer of PreTrained CovNet(VggNet) and save them beforehand for faster training of Neural network.You have to download vgg16.tfmodel from the tensorflow and save in DeepLearning sub folder or you can download from this link [vgg16.model](https://s3.amazonaws.com/cadl/models/vgg16.tfmodel).
 
     ```python train.py <Training images folder> <Testing image folder> <Train images codes folder > <Test images codes folder>```
 
-    For eg python train.py final_train_images_calc_nodule_only final_test_images_calc_nodule_only train-code test-code
+    For eg 
+
+    ```python train.py final_train_images_calc_nodule_only final_test_images_calc_nodule_only train-code test-code```
 
 4.  The extracted features are now used for training our **2-Layer Neural Network** from scratch.The computed models are saved as tensorflow checkpoint after every **Epoch**.
 
     ```python train_model.py <Training images folder> <Train images codes folder> <Training image labels file> <Folder to         save models>```
+    
+    For eg 
 
-    For eg python train_model.py final_train_images_calc_nodule_only train-code training_labels_calc_nodule_only train-model
+    ```python train_model.py final_train_images_calc_nodule_only train-code training_labels_calc_nodule_only train-model```
 
 5.  Finally the saved models are used for making predictions.Confusion Matrix is used as the Performance Metrics for this classifcation task.
+    
+    ```python test_model.py <Testing images folder> <Testing images codes folder> <Testing image labels file> <saved models>```
+
+    For eg
 
     ```python test_model.py final_test_images_calc_nodule_only test-code testing_labels_calc_nodule_only train-model```
     
@@ -73,7 +81,7 @@ After running run.py you should be able to generated below folders.
     
 ## Some Predictions
 
-![Alt text](https://github.com/ayush1997/Xvision/blob/master/image/pred.jpg "Optional Title")
+![Alt text](https://github.csc.com/ATD/mriXvision/tree/master/image/pred.jpg "Optional Title")
 
 ## References
 
@@ -81,13 +89,3 @@ After running run.py you should be able to generated below folders.
 
 > 2. [Deep Convolutional Neural Networks for Computer-Aided Detection: CNN Architectures,
 Dataset Characteristics and Transfer Learning](https://arxiv.org/pdf/1602.03409.pdf)
-
-## Contribute
-
-If you want to contribute and add new feature feel free to send Pull request [here](https://github.com/ayush1997/Xvision/pulls) :D
-
-To report any bugs or request new features, head over to the [Issues page](https://github.com/ayush1997/Xvision/issues)
-
-## To-do
-
-- [ ] Implement saliency map or use Deconv for better visualizations. 
