@@ -5,7 +5,7 @@ Chest Xray image analysis using **Deep Learning** and  exploiting **Deep Transfe
 The **maxpool-5** layer of a pretrained **VGGNet-16(Deep Convolutional Neural Network)** model has been used as the feature extractor here and then further trained on a **2-layer Deep neural network** with **SGD optimizer** and **Batch Normalization** for classification of **Normal vs Nodular** Chest Xray Images.
 
 ## Nodular vs Normal Chest Xray
-<img src="https://github.csc.com/ATD/mriXvision/tree/master/image/node.jpg" width="300" height="300" />
+<img src="https://github.csc.com/ATD/mriXvision/blob/master/image/node.jpg" width="300" height="300" />
 <img src="https://github.csc.com/ATD/mriXvision/blob/master/image/normal.jpg" width="300" height="300" />
 
 ## Some specifications
@@ -23,8 +23,8 @@ The **maxpool-5** layer of a pretrained **VGGNet-16(Deep Convolutional Neural Ne
 ## Evaluation
 ### Confusion Matrix and Training Error Graph
 
-<img src="https://github.csc.com/ATD/mriXvision/tree/master/image/cfm.jpg" width="450" height="400" />
-<img src="https://github.csc.com/ATD/mriXvision/tree/master/image/nodule.jpg" width="400" height="400" />
+<img src="https://github.csc.com/ATD/mriXvision/blob/master/image/cfm.jpg" width="450" height="400" />
+<img src="https://github.csc.com/ATD/mriXvision/blob/master/image/nodule.jpg" width="400" height="400" />
 
 |     |  **Normal** | **Nodule** |
 |------|---------|---------|
@@ -81,7 +81,7 @@ After running run.py you should be able to generated below folders.
     
 ## Some Predictions
 
-![Alt text](https://github.csc.com/ATD/mriXvision/tree/master/image/pred.jpg "Optional Title")
+![Alt text](https://github.csc.com/ATD/mriXvision/blob/master/image/pred.jpg "Optional Title")
 
 ## References
 
