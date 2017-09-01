@@ -1,3 +1,10 @@
+# Softwares Required
+For mac and ubuntu ,python 2.7 and Tensorflow1.12.
+For windows both combination of python 3.6 and python2.7 along with Tensorflow is required to run the project
+  
+#Dependencies
+For list of dependencies check requirement.txt ,there will be other dependencies as well based on python version you are running.Please try to install them based on dependency error you getting.
+
 # Xvision
 
 Chest Xray image analysis using **Deep Learning** and  exploiting **Deep Transfer Learning** technique for it with Tensorflow.
