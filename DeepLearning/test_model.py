@@ -6,15 +6,16 @@ import pickle
 import time
 from sklearn.metrics import precision_recall_fscore_support
 import sys
+import config as cfg
 
 print (sys.argv)
-testing_folder = sys.argv[1]
-test_labels = sys.argv[3]
+testing_folder = cfg.config['test-images']
+test_labels = cfg.config['test-label']
 
 
-batch = 25
+batch = 1
 epoch = 20
-testing_folder_len = len([name for name in os.listdir(os.getcwd()+"/"+testing_folder)])
+testing_folder_len = len([name for name in os.listdir(testing_folder)])
 
 filename = test_labels
 fileObject = open(filename,'rb')
@@ -164,19 +165,19 @@ with g2.as_default():
 class_pred = np.array([])
 class_actual=np.array([])
 
-r = (testing_folder_len - (testing_folder_len%25))+1
+r = (testing_folder_len - (testing_folder_len%1))+1
 print (r)
 
 
 with tf.Session(graph=g2) as sess1:
     # To initialize values with saved data
     sess1.run(tf.global_variables_initializer())
-    saver.restore(sess1, os.getcwd()+"/"+sys.argv[4]+"/"+"my-model-"+str(epoch-1)+".ckpt")
+    saver.restore(sess1, cfg.config['train-model']+"my-model-"+str(epoch-1)+".ckpt")
 
     for j in range(0,r,25):
         test_img = []
 
-        file_Name = os.getcwd()+"/"+sys.argv[2]+"/"+ str(j)
+        file_Name = cfg.config['test-code']+ str(j)
         fileObject = open(file_Name,'rb')
         # load the object from the file into var b
         content_features = pickle.load(fileObject)
@@ -194,7 +195,8 @@ with tf.Session(graph=g2) as sess1:
         print (s)
         print ("predicted",pred)
         print ("actual",actual)
-
+        ind = {"0":"NORMAL","1":"NODULE"}
+        print("NORMAL : "+str(round(s[0][0],3)) + "| NODULE : " +str(round(s[0][1],3))+"\n TRUE : "+ ind[str(actual[0])])
         # print type(pred)
         # class_pred+=list(pred)
         class_pred = np.concatenate((class_pred, pred), axis=0)

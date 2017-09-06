@@ -6,14 +6,15 @@ from skimage.transform import resize as imresize
 import pickle
 import time
 import sys
+import config as cfg
 
-print (sys.argv)
-training_folder = sys.argv[1]
-testing_folder = sys.argv[2]
+print(cfg)
+training_folder = cfg.config['train-images']
+testing_folder = cfg.config['test-images']
 batch = 20
 
-training_folder_len = len([name for name in os.listdir(os.getcwd()+"/"+training_folder)])
-testing_folder_len = len([name for name in os.listdir(os.getcwd()+"/"+testing_folder)])
+training_folder_len = len([name for name in os.listdir(training_folder)])
+testing_folder_len = len([name for name in os.listdir(testing_folder)])
 
 def get_vgg_model():
     # download('https://s3.amazonaws.com/cadl/models/vgg16.tfmodel')
@@ -111,7 +112,7 @@ for j in range(0,r,20):
     for i in range(j+0,j+20-m):
     # for i in range(980,994):
 
-        og = plt.imread(sys.argv[1]+"/"+str(i)+".png")
+        og = plt.imread(cfg.config['train-images']+str(i)+".png")
         og = preprocess(og)
         img.append(og)
     print ("j=",j)
@@ -131,7 +132,12 @@ for j in range(0,r,20):
 
 
     # file_Name = "/home/ayush/Documents/xray/DeepLearning/features-nodule-only/"+str(j)
-    file_Name = os.getcwd()+"/"+sys.argv[3]+"/"+str(j)
+    checkTrainCodeExists = os.path.isdir(cfg.config['train-code'])
+
+    if (checkTrainCodeExists == False):
+        os.mkdir(cfg.config['train-code'])
+
+    file_Name = cfg.config['train-code']+"/"+str(j)
     # open the file for writing
     fileObject = open(file_Name,'wb')
 
@@ -162,7 +168,7 @@ for j in range(0,r,25):
     for i in range(j+0,j+25-m):
     # for i in range(980,994):
 
-        og = plt.imread(sys.argv[2]+"/"+str(i)+".png")
+        og = plt.imread(cfg.config['train-images']+str(i)+".png")
         og = preprocess(og)
         test_img.append(og)
     print ("j=",j)
@@ -179,7 +185,12 @@ for j in range(0,r,25):
     # print "new test",test_img.shape
 
     # file_Name = "/home/ayush/Documents/xray/DeepLearning/test-features-nodule-only/"+str(j)
-    file_Name = os.getcwd()+"/"+sys.argv[4]+"/"+str(j)
+    checkTestCodeExists = os.path.isdir(cfg.config['test-code'])
+
+    if (checkTestCodeExists == False):
+        os.mkdir(cfg.config['test-code'])
+        
+    file_Name = cfg.config['test-code']+"/"+str(j)
     # open the file for writing
     fileObject = open(file_Name,'wb')
 

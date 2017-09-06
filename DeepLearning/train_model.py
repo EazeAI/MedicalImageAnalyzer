@@ -5,14 +5,15 @@ import os
 import pickle
 import time
 import sys
+import config as cfg
 
 print (sys.argv)
-training_folder = sys.argv[1]
-train_labels = sys.argv[3]
-mode_folder = sys.argv[4]
+training_folder = cfg.config['train-images']
+train_labels = cfg.config['train-label']
+mode_folder = cfg.config['train-model']
 batch = 20
 
-training_folder_len = len([name for name in os.listdir(os.getcwd()+"/"+training_folder)])
+training_folder_len = len([name for name in os.listdir(training_folder)])
 
 
 filename = train_labels
@@ -185,7 +186,7 @@ with tf.Session(graph=g2) as sess2:
 
         for j in range(0,r,20):
 
-            file_Name =  os.getcwd()+"/"+sys.argv[2]+"/"+ str(j)
+            file_Name =  cfg.config['train-code']+ str(j)
             fileObject = open(file_Name,'rb')
             # load the object from the file into var b
             content_features = pickle.load(fileObject)
@@ -219,7 +220,7 @@ with tf.Session(graph=g2) as sess2:
 
         print("--- %s seconds ---" % (time.time() - start_time))
         j=0
-        path_name = os.getcwd()+"/"+sys.argv[4]+"/"+"my-model-"+str(epoch)+".ckpt"
+        path_name = cfg.config['train-model']+"my-model-"+str(epoch)+".ckpt"
         save_path = saver.save(sess2, path_name)
         print (path_name,"saved")
         #

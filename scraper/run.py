@@ -1,3 +1,4 @@
+print("Permorming Step 1")
 import json
 from pprint import pprint
 
@@ -6,11 +7,14 @@ with open('datas.json') as data_file:
     data = json.load(data_file)
     lst = []
     n=0
-    print len(data)
+    print (len(data))
     for  i in data:
         # print i
         dic[i] = "/".join(data[i]['items'])
+print("Executed Step 1")
 
+print("Permorming Step 2")
+print("Labeling the data and forming a distionary")
 c=0
 st=""
 new_dict={}
@@ -36,31 +40,46 @@ for j in dic:
 #         print dic[j].lower()
 #         c+=1
 # print c
-# print new_dict        
+# print new_dict
+print("Executed Step 2")
 
+print("Permorming Step 3")
+print("Calculate unique combinations of above diseases")
 from collections import Counter
 c = Counter( (new_dict.values()) )
 
 # print c.items()
 c.items().sort(key=lambda x: x[0])
 c = dict(c)
-print len(c)
+print (len(c))
+print("Executed Step 3")
 
+print("Permorming Step 4")
+print("The dictionary is sorted according to number of cases in each disease.")
 from operator import itemgetter
 sort = sorted(c.items(), key=itemgetter(1))
-# print sort[-40:]
-# print sort
+# print (sort[-40:])
+# print (sort)
+print("Executed Step 5")
 
+print("Permorming Step 5")
+print("Generating Labels.")
 labels = sorted([i for i in sort[-4:] if i[0]!="missing"], key=lambda x: x[1])
-print labels
+print (labels)
+print("Executed Step 5")
 
+print("Permorming Step 6")
+print("Dictionary with list of indexes of every disease")
 from collections import defaultdict
 
 index_list = defaultdict(list)
 
 for key, value in new_dict.iteritems():
     index_list[value].append(key)
+print("Executed Step 6")
 
+print("Permorming Step 7")
+print("Dictionary with list of indexes of every disease")
 train_images_dict = {}
 test_images_dict={}
 for  i in index_list:
@@ -102,9 +121,16 @@ for  i in index_list:
     elif i=="calcinosisnodule":
         train_images_dict["nodule"]+=index_list[i][:23]
         test_images_dict["nodule"] += index_list[i][23:]
+print("Executed Step 7")
 
-len(test_images_dict["normal"])
+print("Permorming Step 8")
+print("Length of test images")
+print(len(test_images_dict["normal"]))
+print(len(test_images_dict["nodule"]))
+print("Executed Step 8")
 
+print("Permorming Step 9")
+print("Encoding the classes")
 # c=0
 # label_dict = {}
 # for i in labels[-1::-1]:
@@ -112,95 +138,125 @@ len(test_images_dict["normal"])
 #     label_dict[i[0]] = c
 #     c+=1
 label_dict = {"normal":0,"nodule":1}
-print label_dict       
+print (label_dict)
+print("Executed Step 9")
 
+print("Permorming Step 10")
+print("Numpy Array Classes")
 import numpy as np
 label_index={}
 for i in label_dict:
     a = np.zeros(2)
     a[label_dict[i]]=1
     label_index[i] = a
-print label_index
+print (label_index)
+print("Executed Step 10")
 
+print("Permorming Step 11")
+print("Printing Numpy Array Classes One by One")
 for i in label_index:
     print i
-    print label_index[i]
+    print (label_index[i])
+print("Executed Step 11")
 
+print("Permorming Step 12")
 new_image_dict={}
 for i in new_dict:
     if new_dict[i] in label_index.keys():
         new_image_dict[i] = label_index[new_dict[i]]
+print("Executed Step 12")
 
+print("Permorming Step 13")
 new_image_dict={}
 for i in new_dict:
     if new_dict[i] =="normal":
         new_image_dict[i] = np.array([1,0])
     else:
         new_image_dict[i] = np.array([0,1])
+print (len(new_image_dict))        
+print("Executed Step 13")
 
-print len(new_image_dict)                    
-
-import shutil,os
-os.chdir('D:\labswork\Xvision\DeepLearning')
-
-#trainign image list
+print("Permorming Step 14")
+print("trainign image list")
 train_list=[]
 test_list=[]
 for  i in train_images_dict:
     train_list +=train_images_dict[i]
 for  i in test_images_dict:
     test_list +=test_images_dict[i]
-print len(train_list)
+print (len(train_list))
+print("Executed Step 14")
 
+print("Permorming Step 15")
+print("Shuffling train list and test list to get random data of train and test")
 from random import shuffle
 
 shuffle(train_list)
 shuffle(test_list)
 
-len(test_list)
-len(train_list)
-# print("test list length")
-# len(test_list)
-# print("train list length")
-# len(train_list)
-# print("This is train list")
-# print(train_list)
-# print("This is test list")
-# print(test_list)
+# for  i in train_list:
+#     print new_dict[i]
+# for i in train_list:
+#     print new_dict[i]
+print (len(test_list))
+print("Executed Step 15")
+
+
+print("Permorming Step 16")
+print("Folder with all training images is formed")
 #copy training data
+import config as cfg
+import os
+import shutil, sys 
 c=0
 train_label={}
+print(os.path.isdir(cfg.config['train-images']))
+checkTrainImageExists = os.path.isdir(cfg.config['train-images'])
 
-# os.mkdir("D://labswork/Xvision/DeepLearning/final_train_images_calc_nodule_only")
+if (checkTrainImageExists == False):
+	os.mkdir(cfg.config['train-images'])
+
 for i in train_list:
-    print i 
-    print "this is train val"
-    shutil.copy('D://labswork/Xvision/data/'+str(i)+'.png', 'D://labswork/Xvision/DeepLearning/final_train_images_calc_nodule_only/'+str(c)+'.png')
+#     print i
+    
+    shutil.copy(cfg.config['data']+i+'.png', cfg.config['train-images']+str(c)+'.png')
     train_label[c] = new_image_dict[i]
     c+=1
+print len(train_label)    
+print("Executed Step 16")
 
+print("Permorming Step 17")
+print("Folder with all testing images in made")
+#copy testing data
 #copy teasting data
 c=0
 test_label={}
+print(os.path.isdir(cfg.config['test-images']))
+checkTestImageExists = os.path.isdir(cfg.config['test-images'])
 
-# os.mkdir("D://labswork/Xvision/DeepLearning/final_test_images_calc_nodule_only")
+if (checkTestImageExists == False):
+	os.mkdir(cfg.config['test-images'])
+
 for i in test_list:
-	print i 
-	print "this is test val"
-	shutil.copy('D://labswork/Xvision/data/'+str(i)+'.png', 'D://labswork/Xvision/DeepLearning/final_test_images_calc_nodule_only/'+str(c)+'.png')
-	test_label[c] = new_image_dict[i]
-	c+=1    
+    shutil.copy(cfg.config['data']+i+'.png', cfg.config['test-images']+str(c)+'.png')
+    test_label[c] = new_image_dict[i]
+    c+=1
+print len(test_label)    
+print("Executed Step 17")
 
+print("Permorming Step 18")
+print("All the training and testing labels are stored as Pickled files")
 import pickle
 import numpy as np
-filename = "training_labels_calc_nodule_only"
+filename = cfg.config['train-label']
 
 fileObject = open(filename,'wb') 
 pickle.dump(np.array(train_label.values()),fileObject)
-fileObject.close()	
+fileObject.close()
 
-filename = "testing_labels_calc_nodule_only"
+filename = cfg.config['test-label']
 
 fileObject = open(filename,'wb') 
 pickle.dump(np.array(test_label.values()),fileObject)
 fileObject.close()
+print("Executed Step 18")
