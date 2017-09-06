@@ -84,7 +84,10 @@ After running run.py you should be able to generated below folders.
 
     ```python test_model.py final_test_images_calc_nodule_only test-code testing_labels_calc_nodule_only train-model```
     
-    
+
+## Flask REST Server
+To run the flask rest server run python app.py in DeepLearning folder and it will run the flask rest server of HealthCare XRAY MRI Analysis.
+REST API ENDPOINT - /healthcare/mri/analysis (accepts one or more file and return the mri xray analysis)    
     
 ## Some Predictions
 
